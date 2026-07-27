@@ -19,7 +19,6 @@ public class DeptController {
     @Autowired
     private DeptService deptService;
 
-    @LogOperation
     @GetMapping
     public Result list(){
         log.info("查询部门列表");
@@ -40,7 +39,7 @@ public class DeptController {
         deptService.save(dept);
         return Result.success();
     }
-    @LogOperation
+
     @GetMapping("/{id}")
     public Result getById(@PathVariable Integer id) {// @PathVariable 获取路径中的 id
         log.info("根据id查询,id:{}",id);

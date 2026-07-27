@@ -11,6 +11,7 @@ import java.util.Map;
 public interface EmpMapper {
 //    @Select("select e.*, d.name as deptName from emp e left join dept d on " +
 //            "e.dept_id = d.id")
+    //有分页查询员工
     List<Emp> list(EmpQueryParam param);
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
@@ -27,7 +28,6 @@ public interface EmpMapper {
     List<Map<String, Object>> countEmpJobData();
 
     List<Map<String, Object>> countEmpGenderData();
-
 
     // login
     // 根据用户名和密码查询员工（注意：实际开发中密码要加密，这里先明文）

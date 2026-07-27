@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.pojo.JobOption;
 import com.example.pojo.Result;
+import com.example.pojo.StudentCountOption;
 import com.example.service.ReportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,19 @@ public class ReportController {
         log.info("统计员工性别信息");
         List<Map<String, Object>> genderList = reportService.getEmpGenderData();
         return Result.success(genderList);
+    }
+
+    @GetMapping("/studentDegreeData")
+    public Result getStudentDegreeData() {
+        log.info("统计学员学历信息");
+        List<Map<String, Object>> degreeList = reportService.getStudentDegreeData();
+        return Result.success(degreeList);
+    }
+
+    @GetMapping("/studentCountData")
+    public Result getStudentCountData() {
+        log.info("统计班级人数");
+        StudentCountOption studentCountOption = reportService.getStudentCountData();
+        return Result.success(studentCountOption);
     }
 }

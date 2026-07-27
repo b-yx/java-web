@@ -18,4 +18,7 @@ public class OperateLog {
     private String methodParams;    // 方法参数
     private String returnValue;     // 返回值
     private Long costTime;          // 执行耗时（ms）
+
+    // 扩展字段（不在表中，用于关联查询）
+    private String operateEmpName;  // 操作人姓名
 }
