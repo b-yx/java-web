@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.StudentMapper">
+
+    <select id="list" resultType="com.example.pojo.Student">
+        SELECT
+            s.*,
+            c.name AS clazzName
+        FROM student s
+        LEFT JOIN clazz c ON s.clazz_id = c.id
+        <where>
+            <if test="name != null and name != ''">
+                AND s.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="degree != null">
+                AND s.degree = #{degree}
+            </if>
+            <if test="clazzId != null">
+                AND s.clazz_id = #{clazzId}
+            </if>
+        </where>
+        ORDER BY s.id DESC
+    </select>
+
+    <delete id="deleteByIds">
+        DELETE FROM student WHERE id IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO student(name, no, gender, phone, id_card, is_college, address, degree, graduation_date, clazz_id,
+                            violation_count, violation_score, create_time, update_time)
+        VALUES (#{name}, #{no}, #{gender}, #{phone}, #{idCard}, #{isCollege}, #{address}, #{degree},
+                #{graduationDate}, #{clazzId}, #{violationCount}, #{violationScore}, #{createTime}, #{updateTime})
+    </insert>
+
+    <select id="getById" resultType="com.example.pojo.Student">
+        SELECT * FROM student WHERE id = #{id}
+    </select>
+
+    <update id="updateById">
+        UPDATE student
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="no != null and no != ''">no = #{no},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="idCard != null and idCard != ''">id_card = #{idCard},</if>
+            <if test="isCollege != null">is_college = #{isCollege},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="degree != null">degree = #{degree},</if>
+            <if test="graduationDate != null">graduation_date = #{graduationDate},</if>
+            <if test="clazzId != null">clazz_id = #{clazzId},</if>
+            <if test="violationCount != null">violation_count = #{violationCount},</if>
+            <if test="violationScore != null">violation_score = #{violationScore},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateViolation">
+        UPDATE student
+        SET violation_count = violation_count + 1,
+            violation_score = violation_score + #{score},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <select id="countStudentDegreeData" resultType="java.util.Map">
+        SELECT
+            CASE degree
+                WHEN 1 THEN '初中'
+                WHEN 2 THEN '高中'
+                WHEN 3 THEN '大专'
+                WHEN 4 THEN '本科'
+                WHEN 5 THEN '硕士'
+                ELSE '其他'
+                END AS name,
+            COUNT(*) AS value
+        FROM student
+        GROUP BY degree
+        ORDER BY degree
+    </select>
+
+    <select id="countStudentCountData" resultType="java.util.Map">
+        SELECT
+            c.name AS clazzName,
+            COUNT(s.id) AS studentCount
+        FROM clazz c
+        LEFT JOIN student s ON c.id = s.clazz_id
+        GROUP BY c.id, c.name
+        ORDER BY c.id
+    </select>
+
+</mapper>
