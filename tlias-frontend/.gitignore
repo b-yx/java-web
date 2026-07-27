@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+
+# Local env files (可能包含敏感信息，永远不要提交)
+.env.local
+.env.*.local
+
+# IDE / Editor
+.vscode/settings.json   # 如果你用 VSCode 的话（.vscode/ 下的公共配置可以留）
+.idea                   # JetBrains 系（WebStorm 等）
+
+# OS 垃圾文件
+.DS_Store               # macOS
+Thumbs.db               # Windows
+
+# Logs
+*.log
+npm-debug.log*
