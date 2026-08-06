@@ -1,0 +1,214 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  font-family: 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', Arial, sans-serif;
+  background: #2b2b2b;
+  color: #333333;
+  font-size: 14px;
+}
+
+/* 手机容器：桌面浏览器居中呈现手机屏幕效果 */
+.phone {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: 100vh;
+  margin: 0 auto;
+  background: #f6f6f6;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 页面滚动区域 */
+.page-body {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 顶部导航栏 */
+.nav-bar {
+  position: relative;
+  flex-shrink: 0;
+  height: 46px;
+  background: #333333;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.nav-bar .nav-title {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.nav-bar .nav-back {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.nav-bar .nav-right {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* 底部固定操作栏 */
+.footer-bar {
+  flex-shrink: 0;
+  position: relative;
+  background: #ffffff;
+  z-index: 50;
+}
+
+/* 通用按钮 */
+.btn-primary {
+  display: inline-block;
+  border: none;
+  background: #ffc200;
+  color: #333333;
+  font-size: 15px;
+  border-radius: 40px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0 24px;
+  line-height: 40px;
+  height: 40px;
+}
+
+.btn-plain {
+  display: inline-block;
+  border: 1px solid #e5e4e4;
+  background: #ffffff;
+  color: #333333;
+  font-size: 14px;
+  border-radius: 36px;
+  text-align: center;
+  cursor: pointer;
+  padding: 0 22px;
+  line-height: 36px;
+  height: 36px;
+}
+
+/* 弹窗遮罩 */
+.mask-box {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 200;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* 数量加减 */
+.stepper {
+  display: flex;
+  align-items: center;
+}
+
+.stepper .step-btn {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepper .step-btn img {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.stepper .step-num {
+  min-width: 28px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* 通用列表卡片 */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  margin: 10px 12px;
+}
+
+/* 加载遮罩 */
+.loading-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* 空状态 */
+.empty-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  color: #999999;
+  font-size: 14px;
+}
+
+.empty-box img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+/* 全局图片兜底 */
+.dish-img {
+  object-fit: cover;
+  background: #f2f2f2;
+}
+
+/* 手机端横条安全区 */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
