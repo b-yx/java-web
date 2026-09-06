@@ -127,6 +127,23 @@ public class AuthService {
         // 6. 返回新的 Access Token + 原有的 Refresh Token
         return new TokenResponse(newAccessToken, refreshTokenStr);
     }
+
+    // ========== 退出登录 (Logout) ==========
+    public void logout(String refreshTokenStr) {
+        // 1. 从数据库查询 Refresh Token
+        LambdaQueryWrapper<RefreshToken> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(RefreshToken::getToken, refreshTokenStr);
+        RefreshToken token = refreshTokenMapper.selectOne(wrapper);
+
+        // 2. 不存在则直接返回（幂等：不暴露 Token 是否存在）
+        if (token == null) {
+            return;
+        }
+
+        // 3. 标记为已失效（revoked），此后 /auth/refresh 会拒绝该 Token
+        token.setRevoked(true);
+        refreshTokenMapper.updateById(token);
+    }
 }
 
 // package com.example.springbootlearning.service;

@@ -58,7 +58,7 @@ public class SecurityConfig {
                     )
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/register", "/auth/login")
+                .requestMatchers("/auth/register", "/auth/login", "/auth/logout")
                 .permitAll()
 
                 .requestMatchers("/admin/**")

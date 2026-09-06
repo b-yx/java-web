@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springbootlearning.common.Result;
 import com.example.springbootlearning.dto.LoginRequest;
+import com.example.springbootlearning.dto.LogoutRequest;
 import com.example.springbootlearning.dto.RefreshTokenRequest;
 import com.example.springbootlearning.dto.RegisterRequest;
 import com.example.springbootlearning.service.AuthService;
@@ -52,5 +53,13 @@ public class AuthController {
     public Result<TokenResponse> refresh(@RequestBody RefreshTokenRequest request) {
         TokenResponse response = authService.refresh(request.getRefreshToken());
         return Result.success(response);
+    }
+
+    @PostMapping("/logout")
+    public Result<Void> logout(@RequestBody LogoutRequest request) {
+
+        authService.logout(request.getRefreshToken());
+
+        return Result.success(null);
     }
 }
