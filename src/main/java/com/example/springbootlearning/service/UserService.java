@@ -1,5 +1,6 @@
 package com.example.springbootlearning.service;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.example.springbootlearning.entity.User;
@@ -27,4 +28,11 @@ public class UserService {
         );
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
+    // @Override
+    public void delete(Long id) {
+
+        // 删除用户
+    }
+
 }
