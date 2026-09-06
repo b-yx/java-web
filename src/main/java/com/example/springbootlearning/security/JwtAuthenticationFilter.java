@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public JwtAuthenticationFilter(
             JwtService jwtService,
             UserDetailsService userDetailsService
-    ) {
+    ) { 
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
@@ -56,27 +56,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwt = authHeader.substring(7);
 
         String username = jwtService.extractUsername(jwt);
-        
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        if ( jwtService.isTokenValid( jwt,userDetails) ) {
+        // 更安全的做法
+        if (username != null 
+                && SecurityContextHolder.getContext().getAuthentication() == null){
 
-            UsernamePasswordAuthenticationToken
-                    authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
+                        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+                        if ( jwtService.isTokenValid( jwt,userDetails) ) {
+
+                        UsernamePasswordAuthenticationToken
+                                authentication =
+                                new UsernamePasswordAuthenticationToken(
+                                        userDetails,
+                                        null,
+                                        userDetails.getAuthorities()
+                                );
 
 
-            SecurityContextHolder
-                    .getContext()
-                    .setAuthentication(
-                            authentication
-                    );
+                        SecurityContextHolder
+                                .getContext()
+                                .setAuthentication(
+                                        authentication
+                                );
+                        }
+
         }
-
 
         filterChain.doFilter(
                 request,
