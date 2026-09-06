@@ -15,6 +15,8 @@ import com.example.springbootlearning.dto.LoginRequest;
 import com.example.springbootlearning.dto.RegisterRequest;
 import com.example.springbootlearning.entity.RefreshToken;
 import com.example.springbootlearning.entity.User;
+import com.example.springbootlearning.exception.BusinessException;
+import com.example.springbootlearning.exception.UserNotFoundException;
 import com.example.springbootlearning.mapper.RefreshTokenMapper;
 import com.example.springbootlearning.mapper.UserMapper;
 import com.example.springbootlearning.security.JwtService;
@@ -44,7 +46,12 @@ public class AuthService {
 
     // ========== 注册 ==========
     public void register(RegisterRequest request) {
-        // 1. 检查用户名是否已存在（你自己补上）
+        // 1. 检查用户名是否已存在
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUsername, request.getUsername());
+        if (userMapper.selectCount(wrapper) > 0) {
+            throw new BusinessException(409, "用户名已存在");
+        }
         // 2. 创建用户
         User user = new User();
         user.setUsername(request.getUsername());
@@ -70,7 +77,7 @@ public class AuthService {
         wrapper.eq(User::getUsername, request.getUsername());
         User user = userMapper.selectOne(wrapper);
         if (user == null) {
-            throw new RuntimeException("用户不存在"); // 理论上不会发生，因为已经认证成功了
+            throw new UserNotFoundException("用户不存在"); // 理论上不会发生，因为已经认证成功了
         }
 
         // 3. 生成 Access Token（短有效期，如 15 分钟）
@@ -102,19 +109,19 @@ public class AuthService {
 
         // 2. 校验
         if (token == null) {
-            throw new RuntimeException("Refresh Token 无效");
+            throw new BusinessException(401, "Refresh Token 无效");
         }
         if (token.getRevoked()) {
-            throw new RuntimeException("Refresh Token 已失效");
+            throw new BusinessException(401, "Refresh Token 已失效");
         }
         if (token.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Refresh Token 已过期");
+            throw new BusinessException(401, "Refresh Token 已过期");
         }
 
         // 3. ★★★ 根据 userId 查出用户，拿到 username 生成新的 Access Token ★★★
         User user = userMapper.selectById(token.getUserId());
         if (user == null) {
-            throw new RuntimeException("用户不存在");
+            throw new UserNotFoundException("用户不存在");
         }
 
         // 4. 生成新的 Access Token（有效期 15 分钟）
