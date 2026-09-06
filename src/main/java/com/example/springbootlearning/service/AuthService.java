@@ -55,6 +55,8 @@ public class AuthService {
                         request.getPassword()
                 )
         );
+        // 3.5
+        user.setRole("USER");
 
         // 4. 保存数据库
         userMapper.insert(user);

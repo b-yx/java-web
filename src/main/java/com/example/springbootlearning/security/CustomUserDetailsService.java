@@ -11,8 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomUserDetailsService
-        implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserMapper userMapper;
 
@@ -34,10 +33,11 @@ public class CustomUserDetailsService
             );
         }
 
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .roles("USER")
-                .build();
+        // return org.springframework.security.core.userdetails.User
+        //         .withUsername(user.getUsername())
+        //         .password(user.getPassword())
+        //         .roles("USER")
+        //         .build();
+        return new LoginUser(user);
     }
 }

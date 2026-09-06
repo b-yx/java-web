@@ -22,9 +22,8 @@ public class UserService {
         return new User(
                 id,
                 "usertom",
-                "Tom",
-                20,
-                "123456"
+                "123456",
+                "User"
         );
     }
     
