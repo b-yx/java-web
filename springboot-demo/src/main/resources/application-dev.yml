@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    # 1. MySQL 连接信息（带常用参数，避免乱码和时区问题）
+    url: jdbc:mysql://localhost:3306/demo #springboot_learning?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123   # 【重要】改成你自己的 MySQL 密码
+    # 2. 关键：指定使用 Druid 数据源（如果不加这一行，Spring Boot 默认会用 Hikari）?
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    # 3. Druid 连接池专属配置（以下为推荐生产级基础配置，你也可以先照抄）
+    # druid:
+    #   # 初始化连接数
+    #   initial-size: 5
+    #   # 最小空闲连接数
+    #   min-idle: 5
+    #   # 最大活动连接数
+    #   max-active: 20
+    #   # 获取连接时的最大等待时间（毫秒）
+    #   max-wait: 60000
+    #   # 检测空闲连接的间隔时间（毫秒）
+    #   time-between-eviction-runs-millis: 60000
+    #   # 连接的最小生存时间（毫秒）
+    #   min-evictable-idle-time-millis: 300000
+    #   # 验证连接是否有效的 SQL（MySQL 推荐用 SELECT 1）
+    #   validation-query: SELECT 1
+    #   # 空闲时检查连接有效性
+    #   test-while-idle: true
+    #   # 借用连接时不检查（提升性能）
+    #   test-on-borrow: false
+    #   # 归还连接时不检查
+    #   test-on-return: false
+    #   # 是否缓存 PreparedStatement（MySQL 建议关闭，因为 MySQL 驱动自身有缓存）
+    #   pool-prepared-statements: false
+    #   # 开启监控统计（stat）和防火墙（wall），方便后续查看 Druid 控制台
+    #   filters: stat,wall

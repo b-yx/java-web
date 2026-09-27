@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: demo
+
+  profiles:
+    active: dev
+
+jwt:
+  secret: this-is-a-long-random-secret-key-for-jwt-signing-2026  
+  # your-secret-key   长度必须至少为 256 位（即 32 个字节）
+  expiration: 900000
